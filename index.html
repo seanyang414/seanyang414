@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Masters1.2</title>
-	<script src="./javascripts/move-masters.js"></script>
+	<title>Masters1.3 +cross best effect</title>
+	<script src="move-masters.js"></script>
 	<style type="text/css">
 	#container
 	{
@@ -30,7 +30,7 @@
 		top:0px;
 		border-radius:5px;
 		line-height: 300px;
-		background-image: url('./images/Masters_4.jpg');
+		background-image: url('Masters_4.jpg');
 		background-attachment: scroll;
 		background-position: -20px -180px;
 		z-index: 10;
@@ -48,6 +48,7 @@
 	#divText
 	{
 		position: absolute;
+		left: 40px;
 		margin-top: 100px;
 		color: black;
 		/*font-weight: bold;*/
@@ -56,6 +57,17 @@
         text-align: center;
         opacity: 0;
 	}
+	#cross
+	{
+		width: 70px;
+		height: 70px;
+		/*background: red;*/
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		opacity: 0.3;
+		fliter:alpha(opacity:80);
+	}
 	</style>
 	<script type="text/javascript">
 	window.onload=function()
@@ -63,48 +75,59 @@
 		var oDiv1 = document.getElementById('div1');
 		var oDiv2 = document.getElementById('div2');
 		var oDiv2Txt =document.getElementById('divText');
+		var oDiv2Cross = document.getElementById('cross');
 		
 		var timer;
 		var timerAppear = setTimeout(function(){
-			startMove(oDiv1,{opacity:100},30)
+			startMove(oDiv1,{opacity:70},30)
 		},300)
 		
 		oDiv1.onmouseover = function()
 		{
-			// if(parseInt(oDiv2.style.left) > 500)
-			// {
-			// 	startMove(oDiv2,{left:0},8, function(){
-			// 		startMove(oDiv2,{width:1000},5);
-			// 	});
-			// 	var timer;
-			// 	timer = setTimeout(function(){
-			// 		startMove(oDiv2Txt,{opacity:0},5);
-			// 	},0);	
-			// }
-			// else
-			// {	
-				startMove(oDiv2,{width:400},5,function(){
-					startMove(oDiv2,{left:600},5);
-				});
-				
-				clearTimeout(timer);
-				timer = setTimeout(function(){
-					startMove(oDiv2Txt,{opacity:100},20);
-				},900);				
-			// }
+			startMove(oDiv1,{opacity:100},5);
 		}
 		oDiv1.onmouseout = function()
 		{
-			startMove(oDiv2,{left:0},8, function(){
+			startMove(oDiv1,{opacity:70},5);
+		}
+
+		oDiv1.onclick = function()
+		{		
+			startMove(oDiv2,{width:400,},5,function(){
+				startMove(oDiv2,{left:600,'border-radius':200},5);
+			});
+		
+			clearTimeout(timer);
+			timer = setTimeout(function(){
+				startMove(oDiv2Txt,{opacity:100},20);
+				startMove(oDiv2Cross,{opacity:30},20);
+			},900);			
+		}
+		
+		oDiv2Cross.onclick = function(ev)
+		{
+			var oEvent = ev||event;
+			startMove(oDiv2,{left:0,'border-radius':5},8, function(){
 					startMove(oDiv2,{width:1000},5);
 				});
 				
 				clearTimeout(timer);
 				timer = setTimeout(function(){
 					startMove(oDiv2Txt,{opacity:0},5);
+					startMove(oDiv2Cross,{opacity:0},5);
 				},0);	
+			oEvent.cancelBubble = true;
+
 		}
-		
+
+		oDiv2Cross.onmouseover = function()
+		{
+			startMove(oDiv2Cross,{opacity:80},4);
+		}
+		oDiv2Cross.onmouseout = function()
+		{
+			startMove(oDiv2Cross,{opacity:30},4);
+		}	
 	};
 	</script>
 </head>
@@ -119,6 +142,7 @@
 				<p>Scheduled for the first full week of April, </p>
 				<p>it is the first of the majors to be played each year.</p>
 			</div>
+			<div id='cross'><img src="cross.png" ></div>
 		</div>
 	</div>
 </body>
